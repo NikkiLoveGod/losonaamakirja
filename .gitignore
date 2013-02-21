@@ -2,3 +2,5 @@
 .idea
 nbproject
 vendor
+app/data/images/*-*
+

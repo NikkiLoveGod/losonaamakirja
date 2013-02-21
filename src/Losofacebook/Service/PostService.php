@@ -48,6 +48,7 @@ class PostService extends AbstractService
         $data['id'] = $this->conn->lastInsertId();
 
         $post = Post::create($data);
+        $this->memcached->delete("post_person_{$personId}");
         $post->setPerson($this->personService->findById($data['poster_id'], false));
         return $post;
     }

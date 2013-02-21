@@ -51,7 +51,7 @@
 
             <tbody>
                 <tr ng-repeat="person in results | orderBy:['lastName', 'firstName']">
-                    <td><img class="mini" ng-src="/api/image/{{ person.primaryImageId}}/thumb"><a href="/person/{{ person.username }}">{{ person.username}}</a></td>
+                    <td><img class="mini" ng-src="/api/image/{{ person.primaryImageId}}/mini"><a href="/person/{{ person.username }}">{{ person.username}}</a></td>
                     <td>{{ person.lastName}}</td>
                     <td>{{ person.firstName}}</td>
                     <td><a href="/company/>{{ person.company}}">{{ person.company}}</a></td>
@@ -67,11 +67,11 @@
     <div id="advertisements" class="span3">
 
         <p>
-            <img src="http://place.manatee.lc/1/1000/600.jpg" />
+            <img src="http://place.manatee.lc/1/270/162.jpg" />
         </p>
 
         <p>
-            <img src="http://place.manatee.lc/2/1000/600.jpg" />
+            <img src="http://place.manatee.lc/2/270/162.jpg" />
         </p>
 
 

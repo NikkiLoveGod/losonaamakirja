@@ -21,26 +21,21 @@ class CreateImagesCommand extends Command
     {
         $this
             ->setName('dev:create-images')
-            ->setDescription('Creates images for users');
+            ->setDescription('Recreates user images');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln("Will parse images.");
-
-        $finder = new Finder();
-
-        $finder
-            ->files()
-            ->in($this->getProjectDirectory() . '/app/dev/imaginarium/people');
+        $output->writeln("Will recerate images.");
 
         $is = $this->getImageService();
+        $db = $this->getDb();
+        
+        $images = $db->fetchAll("SELECT * FROM image WHERE type = 1");
 
-        $this->getDb()->exec("DELETE FROM image WHERE type = 1");
-
-        foreach ($finder as $file) {
-            $output->writeln("{$file->getRealpath()}");
-            $is->createImage($file->getRealpath(), Image::TYPE_PERSON);
+        foreach ($images as $image) {
+            $output->writeln("Creating new image for #{$image['id']}");
+            $is->createVersions($image['id']);
         }
     }
 

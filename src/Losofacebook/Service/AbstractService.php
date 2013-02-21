@@ -113,6 +113,10 @@ abstract class AbstractService
         return $ret;
     }
 
+    protected function deleteCache($cacheId)
+    {
+        $this->memcached->delete($cacheId);
+    }
 
 
 }

@@ -89,12 +89,33 @@ class ImageService extends AbstractService
     public function createVersions($id)
     {
         $img = new Imagick($this->basePath . '/' . $id);
-        $thumb = clone $img;
-
-        $thumb->cropThumbnailimage(500, 500);
-        $thumb->setImageCompression(self::COMPRESSION_TYPE);
-        $thumb->setImageCompressionQuality(90);
-        $thumb->writeImage($this->basePath . '/' . $id . '-thumb');
+        
+        $settings = array(
+            'regular' => array(
+                'height' => 153,
+                'width' => 153, 
+            ),
+            'medium' => array(
+                'height' => 75,
+                'width' => 75,
+            ),
+            'small' => array(
+                'height' => 50,
+                'width' => 50,
+            ),
+            'mini' => array(
+                'height' => 20,
+                'width' => 20,
+            )
+        );
+        
+        foreach($settings as $name => $setting) {
+            $version = clone $img;
+            $version->cropThumbnailimage($setting['height'], $setting['width']);
+            $version->setImageCompression(self::COMPRESSION_TYPE);
+            $version->setImageCompressionQuality(90);
+            $version->writeImage($this->basePath . '/' . $id . '-' . $name);
+        }
     }
 
     public function getImageResponse($id, $version = null)
