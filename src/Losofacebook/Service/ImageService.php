@@ -111,10 +111,17 @@ class ImageService extends AbstractService
         
         foreach($settings as $name => $setting) {
             $version = clone $img;
+            $version->stripImage();
             $version->cropThumbnailimage($setting['height'], $setting['width']);
             $version->setImageCompression(self::COMPRESSION_TYPE);
-            $version->setImageCompressionQuality(90);
-            $version->writeImage($this->basePath . '/' . $id . '-' . $name);
+            $version->setImageCompressionQuality(75);
+            $versionLink = $this->basePath . '/' . $id . '-' . $name;
+            $version->writeImage($versionLink);
+            $targetLink = $this->basePath . '/../../../web/images/' . $id . '-' . $name . '.jpg';
+
+            if ( file_exists( $versionLink ) && !file_exists( $versionLink ) ) {
+                symlink( $versionLink , $targetLink);
+            }
         }
     }
 

@@ -34,11 +34,11 @@ function PersonCtrl($scope, $routeParams, Person, Post, Friend) {
 
     $scope.person = Person.get({username: $routeParams.username}, function(person) {
         $scope.backgroundImage = 'http://place.manatee.lc/' + person.backgroundId + '/1170/293.jpg';
-        $scope.profileImage = '/api/image/' + person.primaryImageId + '/';
-        $scope.profileImageRegular = '/api/image/' + person.primaryImageId + '/regular';
-        $scope.profileImageMedium = '/api/image/' + person.primaryImageId + '/medium';
-        $scope.profileImageSmall = '/api/image/' + person.primaryImageId + '/small';
-        $scope.profileImageMini = '/api/image/' + person.primaryImageId + '/mini';
+        $scope.profileImage = '/images/' + person.primaryImageId + '/';
+        $scope.profileImageRegular = '/images/' + person.primaryImageId + '-regular.jpg';
+        $scope.profileImageMedium = '/images/' + person.primaryImageId + '-medium.jpg';
+        $scope.profileImageSmall = '/images/' + person.primaryImageId + '-small.jpg';
+        $scope.profileImageMini = '/images/' + person.primaryImageId + '-mini.jpg';
         
 
         $scope.birthdayx = Friend.query({ 'username': person.username, 'birthday': true });
@@ -59,7 +59,7 @@ function CompanyCtrl($scope, $routeParams, Company, Person) {
     $scope.company = Company.get({ 'name': $routeParams.name }, function(company) {
 
         $scope.backgroundImage = 'http://place.manatee.lc/' + company.backgroundId + '/2000/500.jpg';
-        $scope.profileImage = '/api/image/' + company.primaryImageId + '/thumb';
+        $scope.profileImage = '/images/' + company.primaryImageId + '/thumb';
 
         $scope.persons = Person.query({ 'company': company.name });
 

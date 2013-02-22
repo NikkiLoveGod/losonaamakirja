@@ -62,13 +62,21 @@ class PostService extends AbstractService
     {
         try {
 
-        $data = [
-            'post_id' => $postId,
-            'poster_id' => $data->poster->id,
-            'date_created' => (new DateTime())->format('Y-m-d H:i:s'),
-            'content' => $data->content,
-        ];
+            $data = [
+                'post_id' => $postId,
+                'poster_id' => $data->poster->id,
+                'date_created' => (new DateTime())->format('Y-m-d H:i:s'),
+                'content' => $data->content,
+            ];
+
             $this->conn->insert('comment', $data);
+
+            $personId = $this->conn->fetchAll(
+                "SELECT person_id FROM post WHERE id = ? ORDER BY date_created DESC", [$postId]
+            );
+
+            $personId = $personId[0]['person_id'];
+            $this->memcached->delete("post_person_{$personId}");    
 
             $data['id'] = $this->conn->lastInsertId();
 
@@ -122,7 +130,7 @@ class PostService extends AbstractService
     public function getComments($postId)
     {
         $data = $this->conn->fetchAll(
-            "SELECT * FROM comment WHERE post_id = ? ORDER BY date_created DESC", [$postId]
+            "SELECT * FROM comment WHERE post_id = ? ORDER BY date_created ASC", [$postId]
         );
 
         $comments = [];
